@@ -1,0 +1,23 @@
+.field {
+  width: 328px;
+  height: 328px;
+  background-color: #616161;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px #616161 solid;
+}
+.item {
+  color:white;
+  width: 80px;
+  height: 80px;
+  background-color: #BDBDBD;
+  border: 1px #616161 solid;
+  text-align: center;
+  line-height: 80px;
+  font-size: 32px;
+  border-radius: 7px;
+}
+.popup-animation {
+  transition-property: font-size;
+  transition-duration: 150ms;
+}
