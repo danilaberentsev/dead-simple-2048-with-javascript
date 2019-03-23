@@ -1,17 +1,19 @@
 .field {
-  width: 328px;
-  height: 328px;
-  background-color: #616161;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  width: 344px;
+  height: 344px;
+  background-color: #263238;
   display: flex;
   flex-wrap: wrap;
-  border: 1px #616161 solid;
+  border: 6px #37474f solid;
 }
 .item {
   color:white;
   width: 80px;
   height: 80px;
-  background-color: #BDBDBD;
-  border: 1px #616161 solid;
+  background-color: #263238;
+  border: 3px #263238 solid;
   text-align: center;
   line-height: 80px;
   font-size: 32px;
@@ -20,4 +22,19 @@
 .popup-animation {
   transition-property: font-size;
   transition-duration: 150ms;
+}
+h1 {
+  width: 350px;
+  text-align: center;
+}
+#new-game-btn {
+  margin-top: 5px;
+  width: 355px;
+  height: 50px;
+  border: 6px solid #37474f;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  cursor: pointer;
+  background-color: #263238;
+  color: white;
 }

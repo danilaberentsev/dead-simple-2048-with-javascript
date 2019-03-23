@@ -1,9 +1,13 @@
 (function () {
   const items = Array.from(document.querySelectorAll(".item"));
   const html = document.querySelector("html");
+  const score = document.querySelector("#score");
+  const newGameButton = document.querySelector("#new-game-btn");
+
   let blankTiles = [];
   let filledTiles = [];
-
+  
+  newGameButton.addEventListener("click", startNewGame);
   html.addEventListener("keyup", makeATurn);
   fillRandomTile();
 
@@ -12,7 +16,7 @@
       let itemsPreMove = [];
       items.forEach(element => itemsPreMove.push(element.innerHTML));
 
-      moveTable(e);
+      moveTableAndAddScore(e);
 
       let itemsAfterMove = [];
       items.forEach(element => itemsAfterMove.push(element.innerHTML));
@@ -24,7 +28,7 @@
   }
 
 
-  function moveTable(e) {
+  function moveTableAndAddScore(e) {
 
     getFilledTiles();
     switch (e.code) {
@@ -39,6 +43,7 @@
                 items[j].innerHTML = '';
               } else if (items[j + 1].innerHTML == items[j].innerHTML) {
                 items[j + 1].innerHTML = items[j + 1].innerHTML * 2 + " ";
+                score.innerHTML = (+score.innerHTML) + (+items[j + 1].innerHTML);
                 items[j].innerHTML = '';
                 break;
               }
@@ -58,6 +63,7 @@
                 items[j].innerHTML = '';
               } else if (items[j - 1].innerHTML == items[j].innerHTML) {
                 items[j - 1].innerHTML = items[j - 1].innerHTML * 2 + " ";
+                score.innerHTML = (+score.innerHTML) + (+items[j - 1].innerHTML);
                 items[j].innerHTML = '';
                 break;
               }
@@ -77,6 +83,7 @@
                 items[j].innerHTML = '';
               } else if (items[j - 4].innerHTML == items[j].innerHTML) {
                 items[j - 4].innerHTML = items[j - 4].innerHTML * 2 + " ";
+                score.innerHTML = (+score.innerHTML) + (+items[j - 4].innerHTML);
                 items[j].innerHTML = '';
                 break;
               }
@@ -96,6 +103,7 @@
                 items[j].innerHTML = '';
               } else if (items[j + 4].innerHTML == items[j].innerHTML) {
                 items[j + 4].innerHTML = items[j + 4].innerHTML * 2 + " ";
+                score.innerHTML = (+score.innerHTML) + (+items[j + 4].innerHTML);
                 items[j].innerHTML = '';
                 break;
               }
@@ -108,7 +116,7 @@
     removeSpaces();
   }
 
-  function fillRandomTile(e) {
+  function fillRandomTile() {
     getBlankTiles();
     let randomBlankTileNumber = getRandomInt(blankTiles.length);
     let itemNumber = blankTiles[randomBlankTileNumber];
@@ -116,7 +124,13 @@
     items[itemNumber].classList.add("popup-animation");
   }
 
-
+  function startNewGame() {
+    score.innerHTML = 0;
+    items.forEach(element => {
+      element.innerHTML = "";
+    });
+    fillRandomTile();
+  }
 
 
   // Utility stuff
