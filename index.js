@@ -16,7 +16,7 @@
       let itemsPreMove = [];
       items.forEach(element => itemsPreMove.push(element.innerHTML));
 
-      moveTableAndAddScore(e);
+     // moveTableAndAddScore(e);
 
       let itemsAfterMove = [];
       items.forEach(element => itemsAfterMove.push(element.innerHTML));
@@ -28,93 +28,93 @@
   }
 
 
-  function moveTableAndAddScore(e) {
+  // function moveTableAndAddScore(e) {
 
-    getFilledTiles();
-    switch (e.code) {
+  //   getFilledTiles();
+  //   switch (e.code) {
 
-      case "ArrowRight":
-        for (let i = 3; i < 16; i += 4) {
-          let currentRow = filledTiles.filter(num => num <= i && num > i - 4).reverse();
-          currentRow.forEach((element) => {
-            for (let j = element; j < i; j++) {
-              if (items[j + 1].innerHTML == '') {
-                items[j + 1].innerHTML = items[j].innerHTML;
-                items[j].innerHTML = '';
-              } else if (items[j + 1].innerHTML == items[j].innerHTML) {
-                items[j + 1].innerHTML = items[j + 1].innerHTML * 2 + " ";
-                score.innerHTML = (+score.innerHTML) + (+items[j + 1].innerHTML);
-                items[j].innerHTML = '';
-                break;
-              }
-            }
-          });
-        }
-        break;
+  //     case "ArrowRight":
+  //       for (let i = 3; i < 16; i += 4) {
+  //         let currentRow = filledTiles.filter(num => num <= i && num > i - 4).reverse();
+  //         currentRow.forEach((element) => {
+  //           for (let j = element; j < i; j++) {
+  //             if (items[j + 1].innerHTML == '') {
+  //               items[j + 1].innerHTML = items[j].innerHTML;
+  //               items[j].innerHTML = '';
+  //             } else if (items[j + 1].innerHTML == items[j].innerHTML) {
+  //               items[j + 1].innerHTML = items[j + 1].innerHTML * 2 + " ";
+  //               score.innerHTML = (+score.innerHTML) + (+items[j + 1].innerHTML);
+  //               items[j].innerHTML = '';
+  //               break;
+  //             }
+  //           }
+  //         });
+  //       }
+  //       break;
 
-      case "ArrowLeft":
-        for (let i = 3; i < 16; i += 4) {
-          let currentRow = filledTiles.filter(num => num <= i && num > i - 4);
+  //     case "ArrowLeft":
+  //       for (let i = 3; i < 16; i += 4) {
+  //         let currentRow = filledTiles.filter(num => num <= i && num > i - 4);
 
-          currentRow.forEach((element) => {
-            for (let j = element; j !== i - 3; j--) {
-              if (items[j - 1].innerHTML == '') {
-                items[j - 1].innerHTML = items[j].innerHTML;
-                items[j].innerHTML = '';
-              } else if (items[j - 1].innerHTML == items[j].innerHTML) {
-                items[j - 1].innerHTML = items[j - 1].innerHTML * 2 + " ";
-                score.innerHTML = (+score.innerHTML) + (+items[j - 1].innerHTML);
-                items[j].innerHTML = '';
-                break;
-              }
-            }
-          });
-        }
-        break;
+  //         currentRow.forEach((element) => {
+  //           for (let j = element; j !== i - 3; j--) {
+  //             if (items[j - 1].innerHTML == '') {
+  //               items[j - 1].innerHTML = items[j].innerHTML;
+  //               items[j].innerHTML = '';
+  //             } else if (items[j - 1].innerHTML == items[j].innerHTML) {
+  //               items[j - 1].innerHTML = items[j - 1].innerHTML * 2 + " ";
+  //               score.innerHTML = (+score.innerHTML) + (+items[j - 1].innerHTML);
+  //               items[j].innerHTML = '';
+  //               break;
+  //             }
+  //           }
+  //         });
+  //       }
+  //       break;
 
-      case "ArrowUp":
-        for (let i = 0; i < 4; i++) {
-          let currentColumn = filledTiles.filter(num => num % 4 == i);
+  //     case "ArrowUp":
+  //       for (let i = 0; i < 4; i++) {
+  //         let currentColumn = filledTiles.filter(num => num % 4 == i);
 
-          currentColumn.forEach((element) => {
-            for (let j = element; j !== i; j -= 4) {
-              if (items[j - 4].innerHTML == '') {
-                items[j - 4].innerHTML = items[j].innerHTML;
-                items[j].innerHTML = '';
-              } else if (items[j - 4].innerHTML == items[j].innerHTML) {
-                items[j - 4].innerHTML = items[j - 4].innerHTML * 2 + " ";
-                score.innerHTML = (+score.innerHTML) + (+items[j - 4].innerHTML);
-                items[j].innerHTML = '';
-                break;
-              }
-            }
-          });
-        }
-        break;
+  //         currentColumn.forEach((element) => {
+  //           for (let j = element; j !== i; j -= 4) {
+  //             if (items[j - 4].innerHTML == '') {
+  //               items[j - 4].innerHTML = items[j].innerHTML;
+  //               items[j].innerHTML = '';
+  //             } else if (items[j - 4].innerHTML == items[j].innerHTML) {
+  //               items[j - 4].innerHTML = items[j - 4].innerHTML * 2 + " ";
+  //               score.innerHTML = (+score.innerHTML) + (+items[j - 4].innerHTML);
+  //               items[j].innerHTML = '';
+  //               break;
+  //             }
+  //           }
+  //         });
+  //       }
+  //       break;
 
-      case "ArrowDown":
-        for (let i = 0; i < 4; i++) {
-          let currentColumn = filledTiles.filter(num => num % 4 == i).reverse();
+  //     case "ArrowDown":
+  //       for (let i = 0; i < 4; i++) {
+  //         let currentColumn = filledTiles.filter(num => num % 4 == i).reverse();
 
-          currentColumn.forEach((element) => {
-            for (let j = element; j < 12 + i; j += 4) {
-              if (items[j + 4].innerHTML == '') {
-                items[j + 4].innerHTML = items[j].innerHTML;
-                items[j].innerHTML = '';
-              } else if (items[j + 4].innerHTML == items[j].innerHTML) {
-                items[j + 4].innerHTML = items[j + 4].innerHTML * 2 + " ";
-                score.innerHTML = (+score.innerHTML) + (+items[j + 4].innerHTML);
-                items[j].innerHTML = '';
-                break;
-              }
-            }
-          });
-        }
-        break;
-    }
+  //         currentColumn.forEach((element) => {
+  //           for (let j = element; j < 12 + i; j += 4) {
+  //             if (items[j + 4].innerHTML == '') {
+  //               items[j + 4].innerHTML = items[j].innerHTML;
+  //               items[j].innerHTML = '';
+  //             } else if (items[j + 4].innerHTML == items[j].innerHTML) {
+  //               items[j + 4].innerHTML = items[j + 4].innerHTML * 2 + " ";
+  //               score.innerHTML = (+score.innerHTML) + (+items[j + 4].innerHTML);
+  //               items[j].innerHTML = '';
+  //               break;
+  //             }
+  //           }
+  //         });
+  //       }
+  //       break;
+  //   }
 
-    removeSpaces();
-  }
+  //   removeSpaces();
+  // }
 
   function fillRandomTile() {
     getBlankTiles();

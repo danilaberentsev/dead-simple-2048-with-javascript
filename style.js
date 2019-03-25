@@ -2,6 +2,11 @@
   const items = Array.from(document.querySelectorAll(".item"));
   const html = document.querySelector("html");
   const newGameButton = document.querySelector("#new-game-btn");
+  const absoluteCoordinates = [[14, 86], [100, 86], [186, 86], [272, 86],
+                               [14,172], [100,172], [186,172], [272,172],
+                               [14,258], [100,258], [186,258], [272,258],
+                               [14,344], [100,344], [185,344], [272,344],
+                               [14,430], [100,430], [186,430], [272,430]];
   newGameButton.addEventListener("click", makeColors);
   html.addEventListener("keyup", makeColors);
   html.addEventListener("keyup", popUpAnimationWrapper);
