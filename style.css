@@ -12,7 +12,7 @@
   color:white;
   width: 80px;
   height: 80px;
-  background-color: #263238;
+  background-color: #37474f;
   border: 3px #263238 solid;
   text-align: center;
   line-height: 80px;
@@ -21,7 +21,7 @@
 }
 .popup-animation {
   transition-property: font-size;
-  transition-duration: 150ms;
+  transition-duration: 100ms;
 }
 h1 {
   width: 350px;
@@ -37,4 +37,9 @@ h1 {
   cursor: pointer;
   background-color: #263238;
   color: white;
+}
+.swipe {
+  transition-property: left, top;
+  transition-duration: 150ms;
+  opacity: 0.25;
 }

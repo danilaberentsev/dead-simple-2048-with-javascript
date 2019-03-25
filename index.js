@@ -3,7 +3,7 @@
   const html = document.querySelector("html");
   const score = document.querySelector("#score");
   const newGameButton = document.querySelector("#new-game-btn");
-
+  //let coordinates = [];
   let blankTiles = [];
   let filledTiles = [];
   
@@ -41,10 +41,15 @@
               if (items[j + 1].innerHTML == '') {
                 items[j + 1].innerHTML = items[j].innerHTML;
                 items[j].innerHTML = '';
+                // items[element].classList.add('swipe-start-' + element);
+                // if ((j + 1) % 4 === 3) {
+                //   items[j + 1].classList.add('swipe-end-' + element);
+                // }
               } else if (items[j + 1].innerHTML == items[j].innerHTML) {
                 items[j + 1].innerHTML = items[j + 1].innerHTML * 2 + " ";
                 score.innerHTML = (+score.innerHTML) + (+items[j + 1].innerHTML);
                 items[j].innerHTML = '';
+                // items[j+1].classList.add('swipe-end-' + element);
                 break;
               }
             }

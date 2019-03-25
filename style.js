@@ -2,15 +2,18 @@
   const items = Array.from(document.querySelectorAll(".item"));
   const html = document.querySelector("html");
   const newGameButton = document.querySelector("#new-game-btn");
+  const field = document.querySelector(".field");
   newGameButton.addEventListener("click", makeColors);
   html.addEventListener("keyup", makeColors);
   html.addEventListener("keyup", popUpAnimationWrapper);
+//  html.addEventListener("keyup", swipeAnimation);
   makeColors();
-  //popUpAnimation();
-  
-
+  const absoluteCoordinates = [[14, 86], [100, 86], [186, 86], [272, 86],
+                               [14,172], [100,172], [186,172], [272,172],
+                               [14,258], [100,258], [186,258], [272,258],
+                               [14,344], [100,344], [185,344], [272,344],
+                               [14,430], [100,430], [186,430], [272,430]]
   function makeColors() {
-
     items.forEach(element => {
       switch (element.innerHTML) {
         case "2":
@@ -99,7 +102,7 @@
           element.style.fontSize = "25px"
           break;
         default:
-          element.style.backgroundColor = "#263238";
+          element.style.backgroundColor = "#37474f";
       }
     });
   }
@@ -111,7 +114,7 @@
   }
 
   function popUpAnimation() {
-      let poped = Array.from(document.querySelectorAll(".popup-animation"));
+      const poped = Array.from(document.querySelectorAll(".popup-animation"));
       if (poped) {
         poped.forEach(element => {
           element.addEventListener("transitionend", function () {
@@ -122,5 +125,53 @@
         });
       }
   }
+
+  // function swipeAnimation() {
+  //   const animatedClasses = [];
+  //   const animationCoordinates = [];
+  //   items.forEach(element => {
+  //     element.classList.forEach(className => {
+  //       if (className.substr(0, 11) === "swipe-start") {
+  //         animatedClasses.push(className + " " + element.id);
+  //       }
+  //       if (className.substr(0, 9) === "swipe-end") {
+  //         animatedClasses.push(className + " " + element.id);
+  //       }
+  //     });
+  //   });
+  //   console.log(animatedClasses);
+  //   animatedClasses.forEach((item, key) => {
+  //     for (i = key + 1; i < animatedClasses.length; i++) {
+  //       if (+item.substr(12,2) === +animatedClasses[i].substr(10,2)) {
+  //         animationCoordinates.push([+item.substr(item.length-2, 2), +animatedClasses[i].substr(animatedClasses[i].length-2, 2)]);
+  //       }
+  //     }
+  //   });
+  //   animationCoordinates.forEach(coords => {
+  //     console.log(coords);
+  //     const swipe = document.createElement('div');
+  //     swipe.innerHTML = items[coords[0]].innerHTML;
+  //     swipe.classList.add('item', 'swipe');
+  //     swipe.style.position = 'absolute';
+  //     swipe.style.backgroundColor = 'red';
+  //     swipe.style.left = absoluteCoordinates[coords[0]][0]+"px";
+  //     swipe.style.top = absoluteCoordinates[coords[0]][1]+"px";
+  //     field.appendChild(swipe);
+  //     html.addEventListener('keyup', actualSwipe);
+  //     function actualSwipe() {
+  //       items[coords[1]].style.opacity = 0;
+  //       swipe.addEventListener('transitionend', function () {
+  //         console.log('listtener');
+  //         items[coords[1]].style.opacity = 1;
+  //         field.removeChild(swipe);
+  //       });
+  //       swipe.style.left = absoluteCoordinates[coords[1]][0]+"px";
+  //       swipe.style.top = absoluteCoordinates[coords[1]][1]+"px";
+  //     }
+  //   });
+  //   items.forEach(item => {
+  //     item.className = "item";
+  //   });
+  // }
 
 })();
