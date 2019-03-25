@@ -1,4 +1,4 @@
-.field {
+.table {
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
   width: 344px;
@@ -8,16 +8,24 @@
   flex-wrap: wrap;
   border: 6px #37474f solid;
 }
-.item {
+.tile {
+  transition-property: left, top, opacity;
+  transition-duration: 100ms;
+  position: absolute;
   color:white;
   width: 80px;
   height: 80px;
-  background-color: #263238;
+  background-color: #4CAF50;
   border: 3px #263238 solid;
   text-align: center;
   line-height: 80px;
   font-size: 32px;
   border-radius: 7px;
+}
+.field {
+  width: 80px;
+  height: 80px;
+  background-color: #263238;
 }
 .popup-animation {
   transition-property: font-size;

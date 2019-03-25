@@ -1,50 +1,219 @@
 (function () {
-  const items = Array.from(document.querySelectorAll(".item"));
+  const fields = Array.from(document.querySelectorAll(".field"));
   const html = document.querySelector("html");
   const score = document.querySelector("#score");
   const newGameButton = document.querySelector("#new-game-btn");
+  const addTile = document.querySelector("#add-tile");
+  addTile.addEventListener('click', function() {
+    fillRandomField();
+  });
+  const absoluteCoordinates = [[14, 86], [100, 86], [186, 86], [272, 86],
+                               [14,172], [100,172], [186,172], [272,172],
+                               [14,258], [100,258], [186,258], [272,258],
+                               [14,344], [100,344], [186,344], [272,344]];
 
-  let blankTiles = [];
-  let filledTiles = [];
+  let blankFeilds = [];
+  let filledFields = [];
   
   newGameButton.addEventListener("click", startNewGame);
   html.addEventListener("keyup", makeATurn);
-  fillRandomTile();
+  fillRandomField();
 
   function makeATurn(e) {
     if (e.code.substr(0, 5) === "Arrow") {
-      let itemsPreMove = [];
-      items.forEach(element => itemsPreMove.push(element.innerHTML));
+      let fieldsPreMove = [];
+      fields.forEach(element => fieldsPreMove.push(element.innerHTML));
 
-     // moveTableAndAddScore(e);
+      moveTable(e);
 
-      let itemsAfterMove = [];
-      items.forEach(element => itemsAfterMove.push(element.innerHTML));
+      let fieldsAfterMove = [];
+      fields.forEach(element => fieldsAfterMove.push(element.innerHTML));
 
-      if (JSON.stringify(itemsPreMove) !== JSON.stringify(itemsAfterMove)) {
-        fillRandomTile();
+      if (JSON.stringify(fieldsPreMove) !== JSON.stringify(fieldsAfterMove)) {
+        fillRandomField();
       }
     }
   }
 
+  function moveTable(event) {
+    switch (event.code) {
+
+      case "ArrowRight":
+        var fieldsReversed = fields.slice().reverse();
+        for (let i = 0; i < fieldsReversed.length; i++) {
+          let endpoint = i;
+
+          if (fieldsReversed[i].firstChild) {
+            let movingTile = fieldsReversed[i].firstChild;
+            let coords = parseInt(movingTile.style.left);
+
+            while (coords != 272) {
+              if (fieldsReversed[endpoint - 1].firstChild) {
+                if (movingTile.innerHTML === fieldsReversed[endpoint - 1].firstChild.innerHTML) {
+                  fieldsReversed[endpoint - 1].firstChild.innerHTML *= 2;
+                  setTimeout(() => movingTile.style.opacity = 0, 0);
+                  movingTile.addEventListener('transitionend', () => {
+                    movingTile.remove();
+                  });
+                  coords +=86;
+                  endpoint--;
+                }
+                break;
+              }
+              coords += 86;
+              endpoint--;
+            }
+            
+            fieldsReversed[endpoint].appendChild(movingTile);
+            setTimeout(() => {
+              movingTile.style.left = `${coords}px`;
+              }, 0);
+          }
+        }
+      break;
+
+      case "ArrowLeft":
+        for (let i = 0; i < fields.length; i++) {
+          let endpoint = i;
+
+          if (fields[endpoint].firstChild) {
+            let movingTile = fields[i].firstChild;
+            let coords = parseInt(movingTile.style.left);
+
+            while (coords != 14) {
+              if (fields[endpoint - 1].firstChild) {
+                if (movingTile.innerHTML === fields[endpoint - 1].firstChild.innerHTML) {
+                  fields[endpoint - 1].firstChild.innerHTML *= 2;
+                  setTimeout(() => movingTile.style.opacity = 0, 0);
+                  movingTile.addEventListener('transitionend', () => {
+                    movingTile.remove();
+                  });
+                  coords -=86;
+                  endpoint--;
+                }
+                break;
+              }
+              coords -= 86;
+              endpoint--;
+            }
+            
+            fields[endpoint].appendChild(movingTile);
+            setTimeout(() => {
+              movingTile.style.left = `${coords}px`;
+              }, 0);
+          }
+        }
+      break;
+
+      case "ArrowDown":
+        var fieldsReversed = fields.slice().reverse();
+        for (let i = 0; i < fieldsReversed.length; i++) {
+          let endpoint = i;
+
+          if (fieldsReversed[i].firstChild) {
+            let movingTile = fieldsReversed[i].firstChild;
+            let coords = parseInt(movingTile.style.top);
+
+            while (coords != 344) {
+              if (fieldsReversed[endpoint - 4].firstChild) {
+                if (movingTile.innerHTML === fieldsReversed[endpoint - 4].firstChild.innerHTML) {
+                  fieldsReversed[endpoint - 4].firstChild.innerHTML *= 2;
+                  setTimeout(() => movingTile.style.opacity = 0, 0);
+                  movingTile.addEventListener('transitionend', () => {
+                    movingTile.remove();
+                  });
+                  coords += 86;
+                  endpoint -= 4; 
+                }
+                break;
+              }
+              coords += 86;
+              endpoint -= 4;
+            }
+            
+            fieldsReversed[endpoint].appendChild(movingTile);
+            setTimeout(() => {
+              movingTile.style.top = `${coords}px`;
+              }, 0);
+          }
+        }
+      break;
+
+      case "ArrowUp":
+        for (let i = 0; i < fields.length; i++) {
+          let endpoint = i;
+
+          if (fields[i].firstChild) {
+            let movingTile = fields[i].firstChild;
+            let coords = parseInt(movingTile.style.top);
+
+            while (coords != 86) {
+              if (fields[endpoint - 4].firstChild) {
+                if (movingTile.innerHTML === fields[endpoint - 4].firstChild.innerHTML) {
+                  fields[endpoint - 4].firstChild.innerHTML *= 2;
+                  setTimeout(() => movingTile.style.opacity = 0, 0);
+                  movingTile.addEventListener('transitionend', () => {
+                    movingTile.remove();
+                  });
+                  coords -= 86;
+                  endpoint -= 4; 
+                }
+                break;
+              }
+              coords -= 86;
+              endpoint -= 4;
+            }
+            
+            fields[endpoint].appendChild(movingTile);
+            setTimeout(() => {
+              movingTile.style.top = `${coords}px`;
+              }, 0);
+          }
+        }
+      break;
+    }
+  }
+
+
+  function fillRandomField() {
+    getBlankFields();
+    const randomBlankField = blankFields[getRandomInt(blankFields.length)];
+    if (blankFields.length) {
+      const newTile = document.createElement('div');
+      newTile.classList.add("tile");
+      newTile.innerHTML = getRandomInt(15) > 1 ? "2" : "4";
+      newTile.style.left = absoluteCoordinates[randomBlankField.id][0] + "px";
+      newTile.style.top = absoluteCoordinates[randomBlankField.id][1] + "px";
+      randomBlankField.appendChild(newTile);
+    } else {
+      console.log('you lose..');
+    }
+  }
+
+
+
+
+
+
+
 
   // function moveTableAndAddScore(e) {
 
-  //   getFilledTiles();
+  //   getFilledFields();
   //   switch (e.code) {
 
   //     case "ArrowRight":
   //       for (let i = 3; i < 16; i += 4) {
-  //         let currentRow = filledTiles.filter(num => num <= i && num > i - 4).reverse();
+  //         let currentRow = filledFields.filter(num => num <= i && num > i - 4).reverse();
   //         currentRow.forEach((element) => {
   //           for (let j = element; j < i; j++) {
-  //             if (items[j + 1].innerHTML == '') {
-  //               items[j + 1].innerHTML = items[j].innerHTML;
-  //               items[j].innerHTML = '';
-  //             } else if (items[j + 1].innerHTML == items[j].innerHTML) {
-  //               items[j + 1].innerHTML = items[j + 1].innerHTML * 2 + " ";
-  //               score.innerHTML = (+score.innerHTML) + (+items[j + 1].innerHTML);
-  //               items[j].innerHTML = '';
+  //             if (fields[j + 1].innerHTML == '') {
+  //               fields[j + 1].innerHTML = fields[j].innerHTML;
+  //               fields[j].innerHTML = '';
+  //             } else if (fields[j + 1].innerHTML == fields[j].innerHTML) {
+  //               fields[j + 1].innerHTML = fields[j + 1].innerHTML * 2 + " ";
+  //               score.innerHTML = (+score.innerHTML) + (+fields[j + 1].innerHTML);
+  //               fields[j].innerHTML = '';
   //               break;
   //             }
   //           }
@@ -54,17 +223,17 @@
 
   //     case "ArrowLeft":
   //       for (let i = 3; i < 16; i += 4) {
-  //         let currentRow = filledTiles.filter(num => num <= i && num > i - 4);
+  //         let currentRow = filledFields.filter(num => num <= i && num > i - 4);
 
   //         currentRow.forEach((element) => {
   //           for (let j = element; j !== i - 3; j--) {
-  //             if (items[j - 1].innerHTML == '') {
-  //               items[j - 1].innerHTML = items[j].innerHTML;
-  //               items[j].innerHTML = '';
-  //             } else if (items[j - 1].innerHTML == items[j].innerHTML) {
-  //               items[j - 1].innerHTML = items[j - 1].innerHTML * 2 + " ";
-  //               score.innerHTML = (+score.innerHTML) + (+items[j - 1].innerHTML);
-  //               items[j].innerHTML = '';
+  //             if (fields[j - 1].innerHTML == '') {
+  //               fields[j - 1].innerHTML = fields[j].innerHTML;
+  //               fields[j].innerHTML = '';
+  //             } else if (fields[j - 1].innerHTML == fields[j].innerHTML) {
+  //               fields[j - 1].innerHTML = fields[j - 1].innerHTML * 2 + " ";
+  //               score.innerHTML = (+score.innerHTML) + (+fields[j - 1].innerHTML);
+  //               fields[j].innerHTML = '';
   //               break;
   //             }
   //           }
@@ -74,17 +243,17 @@
 
   //     case "ArrowUp":
   //       for (let i = 0; i < 4; i++) {
-  //         let currentColumn = filledTiles.filter(num => num % 4 == i);
+  //         let currentColumn = filledFields.filter(num => num % 4 == i);
 
   //         currentColumn.forEach((element) => {
   //           for (let j = element; j !== i; j -= 4) {
-  //             if (items[j - 4].innerHTML == '') {
-  //               items[j - 4].innerHTML = items[j].innerHTML;
-  //               items[j].innerHTML = '';
-  //             } else if (items[j - 4].innerHTML == items[j].innerHTML) {
-  //               items[j - 4].innerHTML = items[j - 4].innerHTML * 2 + " ";
-  //               score.innerHTML = (+score.innerHTML) + (+items[j - 4].innerHTML);
-  //               items[j].innerHTML = '';
+  //             if (fields[j - 4].innerHTML == '') {
+  //               fields[j - 4].innerHTML = fields[j].innerHTML;
+  //               fields[j].innerHTML = '';
+  //             } else if (fields[j - 4].innerHTML == fields[j].innerHTML) {
+  //               fields[j - 4].innerHTML = fields[j - 4].innerHTML * 2 + " ";
+  //               score.innerHTML = (+score.innerHTML) + (+fields[j - 4].innerHTML);
+  //               fields[j].innerHTML = '';
   //               break;
   //             }
   //           }
@@ -94,17 +263,17 @@
 
   //     case "ArrowDown":
   //       for (let i = 0; i < 4; i++) {
-  //         let currentColumn = filledTiles.filter(num => num % 4 == i).reverse();
+  //         let currentColumn = filledFields.filter(num => num % 4 == i).reverse();
 
   //         currentColumn.forEach((element) => {
   //           for (let j = element; j < 12 + i; j += 4) {
-  //             if (items[j + 4].innerHTML == '') {
-  //               items[j + 4].innerHTML = items[j].innerHTML;
-  //               items[j].innerHTML = '';
-  //             } else if (items[j + 4].innerHTML == items[j].innerHTML) {
-  //               items[j + 4].innerHTML = items[j + 4].innerHTML * 2 + " ";
-  //               score.innerHTML = (+score.innerHTML) + (+items[j + 4].innerHTML);
-  //               items[j].innerHTML = '';
+  //             if (fields[j + 4].innerHTML == '') {
+  //               fields[j + 4].innerHTML = fields[j].innerHTML;
+  //               fields[j].innerHTML = '';
+  //             } else if (fields[j + 4].innerHTML == fields[j].innerHTML) {
+  //               fields[j + 4].innerHTML = fields[j + 4].innerHTML * 2 + " ";
+  //               score.innerHTML = (+score.innerHTML) + (+fields[j + 4].innerHTML);
+  //               fields[j].innerHTML = '';
   //               break;
   //             }
   //           }
@@ -116,36 +285,34 @@
   //   removeSpaces();
   // }
 
-  function fillRandomTile() {
-    getBlankTiles();
-    let randomBlankTileNumber = getRandomInt(blankTiles.length);
-    let itemNumber = blankTiles[randomBlankTileNumber];
-    items[itemNumber].innerHTML = "2";
-    items[itemNumber].classList.add("popup-animation");
-  }
+
+
+
+
+
 
   function startNewGame() {
     score.innerHTML = 0;
-    items.forEach(element => {
+    fields.forEach(element => {
       element.innerHTML = "";
     });
-    fillRandomTile();
+    fillRandomField();
   }
 
 
   // Utility stuff
 
-  function getBlankTiles() {
-    blankTiles = [];
-    items.forEach((element, key) => {
-      element.innerHTML === '' && blankTiles.push(key);
+  function getBlankFields() {
+    blankFields = [];
+    fields.forEach(field => {
+      field.innerHTML === '' && blankFields.push(field);
     });
   }
 
-  function getFilledTiles() {
-    filledTiles = [];
-    items.forEach((element, key) => {
-      element.innerHTML !== '' && filledTiles.push(key);
+  function getFilledFields() {
+    filledFields = [];
+    fields.forEach((field, key) => {
+      field.innerHTML !== '' && filledFields.push(key);
     });
   }
 
@@ -154,7 +321,7 @@
   }
 
   function removeSpaces() {
-    items.forEach(element => {
+    fields.forEach(element => {
       element.innerHTML = element.innerHTML.split(" ").join("");
     });
   }
