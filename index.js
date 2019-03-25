@@ -191,106 +191,6 @@
   }
 
 
-
-
-
-
-
-
-  // function moveTableAndAddScore(e) {
-
-  //   getFilledFields();
-  //   switch (e.code) {
-
-  //     case "ArrowRight":
-  //       for (let i = 3; i < 16; i += 4) {
-  //         let currentRow = filledFields.filter(num => num <= i && num > i - 4).reverse();
-  //         currentRow.forEach((element) => {
-  //           for (let j = element; j < i; j++) {
-  //             if (fields[j + 1].innerHTML == '') {
-  //               fields[j + 1].innerHTML = fields[j].innerHTML;
-  //               fields[j].innerHTML = '';
-  //             } else if (fields[j + 1].innerHTML == fields[j].innerHTML) {
-  //               fields[j + 1].innerHTML = fields[j + 1].innerHTML * 2 + " ";
-  //               score.innerHTML = (+score.innerHTML) + (+fields[j + 1].innerHTML);
-  //               fields[j].innerHTML = '';
-  //               break;
-  //             }
-  //           }
-  //         });
-  //       }
-  //       break;
-
-  //     case "ArrowLeft":
-  //       for (let i = 3; i < 16; i += 4) {
-  //         let currentRow = filledFields.filter(num => num <= i && num > i - 4);
-
-  //         currentRow.forEach((element) => {
-  //           for (let j = element; j !== i - 3; j--) {
-  //             if (fields[j - 1].innerHTML == '') {
-  //               fields[j - 1].innerHTML = fields[j].innerHTML;
-  //               fields[j].innerHTML = '';
-  //             } else if (fields[j - 1].innerHTML == fields[j].innerHTML) {
-  //               fields[j - 1].innerHTML = fields[j - 1].innerHTML * 2 + " ";
-  //               score.innerHTML = (+score.innerHTML) + (+fields[j - 1].innerHTML);
-  //               fields[j].innerHTML = '';
-  //               break;
-  //             }
-  //           }
-  //         });
-  //       }
-  //       break;
-
-  //     case "ArrowUp":
-  //       for (let i = 0; i < 4; i++) {
-  //         let currentColumn = filledFields.filter(num => num % 4 == i);
-
-  //         currentColumn.forEach((element) => {
-  //           for (let j = element; j !== i; j -= 4) {
-  //             if (fields[j - 4].innerHTML == '') {
-  //               fields[j - 4].innerHTML = fields[j].innerHTML;
-  //               fields[j].innerHTML = '';
-  //             } else if (fields[j - 4].innerHTML == fields[j].innerHTML) {
-  //               fields[j - 4].innerHTML = fields[j - 4].innerHTML * 2 + " ";
-  //               score.innerHTML = (+score.innerHTML) + (+fields[j - 4].innerHTML);
-  //               fields[j].innerHTML = '';
-  //               break;
-  //             }
-  //           }
-  //         });
-  //       }
-  //       break;
-
-  //     case "ArrowDown":
-  //       for (let i = 0; i < 4; i++) {
-  //         let currentColumn = filledFields.filter(num => num % 4 == i).reverse();
-
-  //         currentColumn.forEach((element) => {
-  //           for (let j = element; j < 12 + i; j += 4) {
-  //             if (fields[j + 4].innerHTML == '') {
-  //               fields[j + 4].innerHTML = fields[j].innerHTML;
-  //               fields[j].innerHTML = '';
-  //             } else if (fields[j + 4].innerHTML == fields[j].innerHTML) {
-  //               fields[j + 4].innerHTML = fields[j + 4].innerHTML * 2 + " ";
-  //               score.innerHTML = (+score.innerHTML) + (+fields[j + 4].innerHTML);
-  //               fields[j].innerHTML = '';
-  //               break;
-  //             }
-  //           }
-  //         });
-  //       }
-  //       break;
-  //   }
-
-  //   removeSpaces();
-  // }
-
-
-
-
-
-
-
   function startNewGame() {
     score.innerHTML = 0;
     fields.forEach(element => {
@@ -320,9 +220,4 @@
     return Math.floor(Math.random() * max);
   }
 
-  function removeSpaces() {
-    fields.forEach(element => {
-      element.innerHTML = element.innerHTML.split(" ").join("");
-    });
-  }
 }());
