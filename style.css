@@ -29,7 +29,7 @@
 }
 .popup-animation {
   transition-property: font-size;
-  transition-duration: 150ms;
+  transition-duration: 600ms;
 }
 h1 {
   width: 350px;

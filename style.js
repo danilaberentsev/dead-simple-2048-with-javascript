@@ -3,13 +3,19 @@
   const newGameButton = document.querySelector("#new-game-btn");
   newGameButton.addEventListener("click", makeColors);
   html.addEventListener("keyup", makeColors);
-  //html.addEventListener("keyup", popUpAnimationWrapper);
   makeColors();
   //popUpAnimation();
   
 
   function makeColors() {
     const tiles = Array.from(document.querySelectorAll(".tile"));
+    const poped = Array.from(document.querySelectorAll(".popup-animation"));
+    if (poped) {
+      poped.forEach(element => {
+        console.log(element);
+        setTimeout(() => element.classList.remove("popup-animation"), 0);
+      });
+    }
 
     tiles.forEach(element => {
       switch (element.innerHTML) {
@@ -111,16 +117,6 @@
   }
 
   function popUpAnimation() {
-      let poped = Array.from(document.querySelectorAll(".popup-animation"));
-      if (poped) {
-        poped.forEach(element => {
-          element.addEventListener("transitionend", function () {
-            element.style.fontSize = "36px";
-            element.classList.remove("popup-animation");
-          });
-          element.style.fontSize = "90px";
-        });
-      }
   }
 
 })();

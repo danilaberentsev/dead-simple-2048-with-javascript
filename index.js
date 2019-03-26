@@ -180,7 +180,8 @@
     const randomBlankField = blankFields[getRandomInt(blankFields.length)];
     if (blankFields.length) {
       const newTile = document.createElement('div');
-      newTile.classList.add("tile");
+      newTile.style.fontSize = "90px";
+      newTile.classList.add("tile", "popup-animation");
       newTile.innerHTML = getRandomInt(15) > 1 ? "2" : "4";
       newTile.style.left = absoluteCoordinates[randomBlankField.id][0] + "px";
       newTile.style.top = absoluteCoordinates[randomBlankField.id][1] + "px";
