@@ -63,11 +63,9 @@
               coords += 86;
               endpoint--;
             }
-            
             fieldsReversed[endpoint].appendChild(movingTile);
-            setTimeout(() => {
-              movingTile.style.left = `${coords}px`;
-              }, 0);
+            movingTile.offsetWidth;
+            movingTile.style.left = `${coords}px`;
           }
         }
       break;
@@ -98,9 +96,8 @@
             }
             
             fields[endpoint].appendChild(movingTile);
-            setTimeout(() => {
-              movingTile.style.left = `${coords}px`;
-              }, 0);
+            movingTile.offsetWidth;
+            movingTile.style.left = `${coords}px`;
           }
         }
       break;
@@ -132,9 +129,8 @@
             }
             
             fieldsReversed[endpoint].appendChild(movingTile);
-            setTimeout(() => {
-              movingTile.style.top = `${coords}px`;
-              }, 0);
+            movingTile.offsetWidth;
+            movingTile.style.top = `${coords}px`;
           }
         }
       break;
@@ -165,9 +161,8 @@
             }
             
             fields[endpoint].appendChild(movingTile);
-            setTimeout(() => {
-              movingTile.style.top = `${coords}px`;
-              }, 0);
+            movingTile.offsetWidth;
+            movingTile.style.top = `${coords}px`;
           }
         }
       break;
@@ -222,3 +217,10 @@
   }
 
 }());
+
+var forceRedraw = function(element){
+  var disp = element.style.display;
+  element.style.display = 'none';
+  var trick = element.offsetHeight;
+  element.style.display = disp;
+};
