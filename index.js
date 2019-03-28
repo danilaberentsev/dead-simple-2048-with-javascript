@@ -13,10 +13,9 @@
   addTile.addEventListener('click', () => {
     fillRandomField();
   });
-
-  
   newGameButton.addEventListener("click", startNewGame);
   html.addEventListener("keyup", makeATurn);
+  
   fillRandomField();
 
   function makeATurn(e) {
@@ -51,6 +50,7 @@
               if (fieldsReversed[endpoint - 1].firstChild) {
                 if (movingTile.innerHTML === fieldsReversed[endpoint - 1].firstChild.innerHTML) {
                   fieldsReversed[endpoint - 1].firstChild.innerHTML *= 2;
+                  score.innerHTML = (+score.innerHTML) + (+fieldsReversed[endpoint - 1].firstChild.innerHTML);
                   movingTile.addEventListener('transitionend', () => {
                     trashcan.innerHTML = '';
                   });
@@ -75,42 +75,6 @@
         }
       break;
 
-      case "ArrowLeft":
-        for (let i = 0; i < fields.length; i++) {
-          let endpoint = i;
-
-          if (fields[endpoint].firstChild) {
-            let movingTile = fields[i].firstChild;
-            let coords = parseInt(movingTile.style.left);
-
-            while (coords != 14) {
-              if (fields[endpoint - 1].firstChild) {
-                if (movingTile.innerHTML === fields[endpoint - 1].firstChild.innerHTML) {
-                  fields[endpoint - 1].firstChild.innerHTML *= 2;
-                  movingTile.addEventListener('transitionend', () => {
-                    trashcan.innerHTML = '';
-                  });
-                  trashcan.appendChild(movingTile);
-                  movingTile.offsetWidth;
-                  movingTile.style.opacity = 0;
-                  coords -=86;
-                  endpoint--;
-                }
-                break;
-              }
-              coords -= 86;
-              endpoint--;
-            }
-            
-            if (movingTile.style.opacity !== "0") {
-              fields[endpoint].appendChild(movingTile);
-              movingTile.offsetWidth;
-            }
-            movingTile.style.left = `${coords}px`;
-          }
-        }
-      break;
-
       case "ArrowDown":
         var fieldsReversed = fields.slice().reverse();
         for (let i = 0; i < fieldsReversed.length; i++) {
@@ -124,6 +88,7 @@
               if (fieldsReversed[endpoint - 4].firstChild) {
                 if (movingTile.innerHTML === fieldsReversed[endpoint - 4].firstChild.innerHTML) {
                   fieldsReversed[endpoint - 4].firstChild.innerHTML *= 2;
+                  score.innerHTML = (+score.innerHTML) + (+fieldsReversed[endpoint - 4].firstChild.innerHTML);
                   movingTile.addEventListener('transitionend', () => {
                     trashcan.innerHTML = '';
                   });
@@ -148,6 +113,43 @@
         }
       break;
 
+      case "ArrowLeft":
+        for (let i = 0; i < fields.length; i++) {
+          let endpoint = i;
+
+          if (fields[i].firstChild) {
+            let movingTile = fields[i].firstChild;
+            let coords = parseInt(movingTile.style.left);
+
+            while (coords != 14) {
+              if (fields[endpoint - 1].firstChild) {
+                if (movingTile.innerHTML === fields[endpoint - 1].firstChild.innerHTML) {
+                  fields[endpoint - 1].firstChild.innerHTML *= 2;
+                  score.innerHTML = (+score.innerHTML) + (+fields[endpoint - 1].firstChild.innerHTML);
+                  movingTile.addEventListener('transitionend', () => {
+                    trashcan.innerHTML = '';
+                  });
+                  trashcan.appendChild(movingTile);
+                  movingTile.offsetWidth;
+                  movingTile.style.opacity = 0;
+                  coords -=86;
+                  endpoint--;
+                }
+                break;
+              }
+              coords -= 86;
+              endpoint--;
+            }
+            
+            if (movingTile.style.opacity !== "0") {
+              fields[endpoint].appendChild(movingTile);
+              movingTile.offsetWidth;
+            }
+            movingTile.style.left = `${coords}px`;
+          }
+        }
+      break;
+
       case "ArrowUp":
         for (let i = 0; i < fields.length; i++) {
           let endpoint = i;
@@ -160,6 +162,7 @@
               if (fields[endpoint - 4].firstChild) {
                 if (movingTile.innerHTML === fields[endpoint - 4].firstChild.innerHTML) {
                   fields[endpoint - 4].firstChild.innerHTML *= 2;
+                  score.innerHTML = (+score.innerHTML) + (+fields[endpoint - 4].firstChild.innerHTML);
                   movingTile.addEventListener('transitionend', () => {
                     trashcan.innerHTML = '';
                   });
@@ -195,8 +198,8 @@
       newTile.style.fontSize = "90px";
       newTile.classList.add("tile", "popup-animation");
       newTile.innerHTML = getRandomInt(15) > 1 ? "2" : "4";
-      newTile.style.left = absoluteCoordinates[randomBlankField.id][0] + "px";
-      newTile.style.top = absoluteCoordinates[randomBlankField.id][1] + "px";
+      newTile.style.left = `${absoluteCoordinates[randomBlankField.id][0]}px`;
+      newTile.style.top = `${absoluteCoordinates[randomBlankField.id][1]}px`;
       randomBlankField.appendChild(newTile);
     } else {
       console.log('you lose..');
@@ -219,13 +222,6 @@
     blankFields = [];
     fields.forEach(field => {
       field.innerHTML === '' && blankFields.push(field);
-    });
-  }
-
-  function getFilledFields() {
-    filledFields = [];
-    fields.forEach((field, key) => {
-      field.innerHTML !== '' && filledFields.push(key);
     });
   }
 
