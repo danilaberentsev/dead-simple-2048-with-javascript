@@ -1,19 +1,19 @@
 (function () {
-  const fields = Array.from(document.querySelectorAll(".field"));
-  const html = document.querySelector("html");
-  const score = document.querySelector("#score");
-  const newGameButton = document.querySelector("#new-game-btn");
-  const addTile = document.querySelector("#add-tile");
-  addTile.addEventListener('click', function() {
-    fillRandomField();
-  });
+  const fields              = Array.from(document.querySelectorAll(".field"));
+  const html                = document.querySelector("html");
+  const score               = document.querySelector("#score");
+  const newGameButton       = document.querySelector("#new-game-btn");
+  const addTile             = document.querySelector("#add-tile");
+  const trashcan            = document.querySelector("#trashcan");
+  let filledFields          = [];
   const absoluteCoordinates = [[14, 86], [100, 86], [186, 86], [272, 86],
                                [14,172], [100,172], [186,172], [272,172],
                                [14,258], [100,258], [186,258], [272,258],
                                [14,344], [100,344], [186,344], [272,344]];
+  addTile.addEventListener('click', () => {
+    fillRandomField();
+  });
 
-  let blankFeilds = [];
-  let filledFields = [];
   
   newGameButton.addEventListener("click", startNewGame);
   html.addEventListener("keyup", makeATurn);
@@ -36,8 +36,8 @@
   }
 
   function moveTable(event) {
-    switch (event.code) {
 
+    switch (event.code) {
       case "ArrowRight":
         var fieldsReversed = fields.slice().reverse();
         for (let i = 0; i < fieldsReversed.length; i++) {
@@ -51,10 +51,12 @@
               if (fieldsReversed[endpoint - 1].firstChild) {
                 if (movingTile.innerHTML === fieldsReversed[endpoint - 1].firstChild.innerHTML) {
                   fieldsReversed[endpoint - 1].firstChild.innerHTML *= 2;
-                  setTimeout(() => movingTile.style.opacity = 0, 0);
                   movingTile.addEventListener('transitionend', () => {
-                    movingTile.remove();
+                    trashcan.innerHTML = '';
                   });
+                  trashcan.appendChild(movingTile);
+                  movingTile.offsetWidth;
+                  movingTile.style.opacity = 0;
                   coords +=86;
                   endpoint--;
                 }
@@ -63,8 +65,11 @@
               coords += 86;
               endpoint--;
             }
-            fieldsReversed[endpoint].appendChild(movingTile);
-            movingTile.offsetWidth;
+
+            if (movingTile.style.opacity !== "0") {
+              fieldsReversed[endpoint].appendChild(movingTile);
+              movingTile.offsetWidth;
+            }
             movingTile.style.left = `${coords}px`;
           }
         }
@@ -82,10 +87,12 @@
               if (fields[endpoint - 1].firstChild) {
                 if (movingTile.innerHTML === fields[endpoint - 1].firstChild.innerHTML) {
                   fields[endpoint - 1].firstChild.innerHTML *= 2;
-                  setTimeout(() => movingTile.style.opacity = 0, 0);
                   movingTile.addEventListener('transitionend', () => {
-                    movingTile.remove();
+                    trashcan.innerHTML = '';
                   });
+                  trashcan.appendChild(movingTile);
+                  movingTile.offsetWidth;
+                  movingTile.style.opacity = 0;
                   coords -=86;
                   endpoint--;
                 }
@@ -95,8 +102,10 @@
               endpoint--;
             }
             
-            fields[endpoint].appendChild(movingTile);
-            movingTile.offsetWidth;
+            if (movingTile.style.opacity !== "0") {
+              fields[endpoint].appendChild(movingTile);
+              movingTile.offsetWidth;
+            }
             movingTile.style.left = `${coords}px`;
           }
         }
@@ -115,10 +124,12 @@
               if (fieldsReversed[endpoint - 4].firstChild) {
                 if (movingTile.innerHTML === fieldsReversed[endpoint - 4].firstChild.innerHTML) {
                   fieldsReversed[endpoint - 4].firstChild.innerHTML *= 2;
-                  setTimeout(() => movingTile.style.opacity = 0, 0);
                   movingTile.addEventListener('transitionend', () => {
-                    movingTile.remove();
+                    trashcan.innerHTML = '';
                   });
+                  trashcan.appendChild(movingTile);
+                  movingTile.offsetWidth;
+                  movingTile.style.opacity = 0;
                   coords += 86;
                   endpoint -= 4; 
                 }
@@ -128,8 +139,10 @@
               endpoint -= 4;
             }
             
-            fieldsReversed[endpoint].appendChild(movingTile);
-            movingTile.offsetWidth;
+            if (movingTile.style.opacity !== "0") {
+              fieldsReversed[endpoint].appendChild(movingTile);
+              movingTile.offsetWidth;
+            }
             movingTile.style.top = `${coords}px`;
           }
         }
@@ -147,10 +160,12 @@
               if (fields[endpoint - 4].firstChild) {
                 if (movingTile.innerHTML === fields[endpoint - 4].firstChild.innerHTML) {
                   fields[endpoint - 4].firstChild.innerHTML *= 2;
-                  setTimeout(() => movingTile.style.opacity = 0, 0);
                   movingTile.addEventListener('transitionend', () => {
-                    movingTile.remove();
+                    trashcan.innerHTML = '';
                   });
+                  trashcan.appendChild(movingTile);
+                  movingTile.offsetWidth;
+                  movingTile.style.opacity = 0;
                   coords -= 86;
                   endpoint -= 4; 
                 }
@@ -160,8 +175,10 @@
               endpoint -= 4;
             }
             
-            fields[endpoint].appendChild(movingTile);
-            movingTile.offsetWidth;
+            if (movingTile.style.opacity !== "0") {
+              fields[endpoint].appendChild(movingTile);
+              movingTile.offsetWidth;
+            }
             movingTile.style.top = `${coords}px`;
           }
         }
@@ -217,10 +234,3 @@
   }
 
 }());
-
-var forceRedraw = function(element){
-  var disp = element.style.display;
-  element.style.display = 'none';
-  var trick = element.offsetHeight;
-  element.style.display = disp;
-};

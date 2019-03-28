@@ -10,7 +10,7 @@
 }
 .tile {
   transition-property: left, top, opacity;
-  transition-duration: 100ms;
+  transition-duration: 150ms;
   position: absolute;
   color:white;
   width: 80px;
