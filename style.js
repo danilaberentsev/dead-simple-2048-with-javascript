@@ -4,25 +4,18 @@
   newGameButton.addEventListener("click", makeColors);
   html.addEventListener("keyup", makeColors);
   makeColors();
-  //popUpAnimation();
-  
+
 
   function makeColors() {
     const tiles = Array.from(document.querySelectorAll(".tile"));
-    const poped = Array.from(document.querySelectorAll(".popup-animation"));
-    if (poped) {
-      poped.forEach(element => {
-        console.log(element);
-        setTimeout(() => element.classList.remove("popup-animation"), 0);
-      });
-    }
+    
 
     tiles.forEach(element => {
       switch (element.innerHTML) {
         case "2":
           element.style.backgroundColor = "#4CAF50";
-          element.style.color = "white"
-          element.style.fontSize = "30px"
+          element.style.color = "white";
+          element.style.fontSize = "30px";
           break;
         case "4":
           element.style.backgroundColor = "#689F38";
@@ -108,15 +101,6 @@
           element.style.backgroundColor = "#4CAF50";
       }
     });
-  }
-
-  function popUpAnimationWrapper (e) {
-    if (e.code.substr(0, 5) === "Arrow") {
-    popUpAnimation();
-    }
-  }
-
-  function popUpAnimation() {
   }
 
 })();

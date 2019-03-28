@@ -22,14 +22,26 @@
   font-size: 32px;
   border-radius: 7px;
 }
-.field {
+.trash {
+  transition-property: background-color;
+  transition-duration: 350ms;
+  position: absolute;
+  color:white;
   width: 80px;
   height: 80px;
   background-color: #263238;
+  border: 3px #263238 solid;
+  text-align: center;
+  line-height: 80px;
+  font-size: 32px;
+  border-radius: 7px;
 }
-.popup-animation {
-  transition-property: font-size;
+.field {
+  transition-property: opacity;
   transition-duration: 600ms;
+  width: 80px;
+  height: 80px;
+  background-color: #263238;
 }
 h1 {
   width: 350px;

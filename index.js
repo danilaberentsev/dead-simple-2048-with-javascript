@@ -23,7 +23,7 @@
       let fieldsPreMove = [];
       fields.forEach(element => fieldsPreMove.push(element.innerHTML));
 
-      moveTable(e);
+      moveTableAndUpdateScore(e);
 
       let fieldsAfterMove = [];
       fields.forEach(element => fieldsAfterMove.push(element.innerHTML));
@@ -34,7 +34,7 @@
     }
   }
 
-  function moveTable(event) {
+  function moveTableAndUpdateScore(event) {
 
     switch (event.code) {
       case "ArrowRight":
@@ -195,12 +195,22 @@
     const randomBlankField = blankFields[getRandomInt(blankFields.length)];
     if (blankFields.length) {
       const newTile = document.createElement('div');
-      newTile.style.fontSize = "90px";
-      newTile.classList.add("tile", "popup-animation");
+      const trash = document.createElement('div');
       newTile.innerHTML = getRandomInt(15) > 1 ? "2" : "4";
+      trash.classList.add('trash');
+      trash.innerHTML = newTile.innerHTML;
+      trash.style.left = `${absoluteCoordinates[randomBlankField.id][0]}px`;
+      trash.style.top = `${absoluteCoordinates[randomBlankField.id][1]}px`;
+      trashcan.appendChild(trash);
+      trash.addEventListener('transitionend', () => trashcan.innerHTML = '');
+      randomBlankField.offsetWidth;
+      trash.style.backgroundColor = '#4CAF50';
+      newTile.classList.add("tile", "poped-up");
       newTile.style.left = `${absoluteCoordinates[randomBlankField.id][0]}px`;
       newTile.style.top = `${absoluteCoordinates[randomBlankField.id][1]}px`;
+      randomBlankField.style.opacity = 0;
       randomBlankField.appendChild(newTile);
+      randomBlankField.style.opacity = 1;
     } else {
       console.log('you lose..');
     }
