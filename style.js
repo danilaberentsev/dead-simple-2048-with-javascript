@@ -1,22 +1,21 @@
 (function () {
-  const items = Array.from(document.querySelectorAll(".item"));
   const html = document.querySelector("html");
   const newGameButton = document.querySelector("#new-game-btn");
   newGameButton.addEventListener("click", makeColors);
   html.addEventListener("keyup", makeColors);
-  html.addEventListener("keyup", popUpAnimationWrapper);
   makeColors();
-  //popUpAnimation();
-  
+
 
   function makeColors() {
+    const tiles = Array.from(document.querySelectorAll(".tile"));
+    
 
-    items.forEach(element => {
+    tiles.forEach(element => {
       switch (element.innerHTML) {
         case "2":
           element.style.backgroundColor = "#4CAF50";
-          element.style.color = "white"
-          element.style.fontSize = "30px"
+          element.style.color = "white";
+          element.style.fontSize = "30px";
           break;
         case "4":
           element.style.backgroundColor = "#689F38";
@@ -99,28 +98,9 @@
           element.style.fontSize = "25px"
           break;
         default:
-          element.style.backgroundColor = "#263238";
+          element.style.backgroundColor = "#4CAF50";
       }
     });
-  }
-
-  function popUpAnimationWrapper (e) {
-    if (e.code.substr(0, 5) === "Arrow") {
-    popUpAnimation();
-    }
-  }
-
-  function popUpAnimation() {
-      let poped = Array.from(document.querySelectorAll(".popup-animation"));
-      if (poped) {
-        poped.forEach(element => {
-          element.addEventListener("transitionend", function () {
-            element.style.fontSize = "36px";
-            element.classList.remove("popup-animation");
-          });
-          element.style.fontSize = "90px";
-        });
-      }
   }
 
 })();

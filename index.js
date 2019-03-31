@@ -1,151 +1,237 @@
 (function () {
-  const items = Array.from(document.querySelectorAll(".item"));
-  const html = document.querySelector("html");
-  const score = document.querySelector("#score");
-  const newGameButton = document.querySelector("#new-game-btn");
-
-  let blankTiles = [];
-  let filledTiles = [];
-  
+  const fields              = Array.from(document.querySelectorAll(".field"));
+  const html                = document.querySelector("html");
+  const score               = document.querySelector("#score");
+  const newGameButton       = document.querySelector("#new-game-btn");
+  const addTile             = document.querySelector("#add-tile");
+  const trashcan            = document.querySelector("#trashcan");
+  let filledFields          = [];
+  const absoluteCoordinates = [[14, 86], [100, 86], [186, 86], [272, 86],
+                               [14,172], [100,172], [186,172], [272,172],
+                               [14,258], [100,258], [186,258], [272,258],
+                               [14,344], [100,344], [186,344], [272,344]];
+  addTile.addEventListener('click', () => {
+    fillRandomField();
+  });
   newGameButton.addEventListener("click", startNewGame);
   html.addEventListener("keyup", makeATurn);
-  fillRandomTile();
+  
+  fillRandomField();
 
   function makeATurn(e) {
     if (e.code.substr(0, 5) === "Arrow") {
-      let itemsPreMove = [];
-      items.forEach(element => itemsPreMove.push(element.innerHTML));
+      let fieldsPreMove = [];
+      fields.forEach(element => fieldsPreMove.push(element.innerHTML));
 
-      moveTableAndAddScore(e);
+      moveTableAndUpdateScore(e);
 
-      let itemsAfterMove = [];
-      items.forEach(element => itemsAfterMove.push(element.innerHTML));
+      let fieldsAfterMove = [];
+      fields.forEach(element => fieldsAfterMove.push(element.innerHTML));
 
-      if (JSON.stringify(itemsPreMove) !== JSON.stringify(itemsAfterMove)) {
-        fillRandomTile();
+      if (JSON.stringify(fieldsPreMove) !== JSON.stringify(fieldsAfterMove)) {
+        fillRandomField();
       }
     }
   }
 
+  function moveTableAndUpdateScore(event) {
 
-  function moveTableAndAddScore(e) {
-
-    getFilledTiles();
-    switch (e.code) {
-
+    switch (event.code) {
       case "ArrowRight":
-        for (let i = 3; i < 16; i += 4) {
-          let currentRow = filledTiles.filter(num => num <= i && num > i - 4).reverse();
-          currentRow.forEach((element) => {
-            for (let j = element; j < i; j++) {
-              if (items[j + 1].innerHTML == '') {
-                items[j + 1].innerHTML = items[j].innerHTML;
-                items[j].innerHTML = '';
-              } else if (items[j + 1].innerHTML == items[j].innerHTML) {
-                items[j + 1].innerHTML = items[j + 1].innerHTML * 2 + " ";
-                score.innerHTML = (+score.innerHTML) + (+items[j + 1].innerHTML);
-                items[j].innerHTML = '';
+        var fieldsReversed = fields.slice().reverse();
+        for (let i = 0; i < fieldsReversed.length; i++) {
+          let endpoint = i;
+
+          if (fieldsReversed[i].firstChild) {
+            let movingTile = fieldsReversed[i].firstChild;
+            let coords = parseInt(movingTile.style.left);
+
+            while (coords != 272) {
+              if (fieldsReversed[endpoint - 1].firstChild) {
+                if (movingTile.innerHTML === fieldsReversed[endpoint - 1].firstChild.innerHTML) {
+                  fieldsReversed[endpoint - 1].firstChild.innerHTML *= 2;
+                  score.innerHTML = (+score.innerHTML) + (+fieldsReversed[endpoint - 1].firstChild.innerHTML);
+                  movingTile.addEventListener('transitionend', () => {
+                    trashcan.innerHTML = '';
+                  });
+                  trashcan.appendChild(movingTile);
+                  movingTile.offsetWidth;
+                  movingTile.style.opacity = 0;
+                  coords +=86;
+                  endpoint--;
+                }
                 break;
               }
+              coords += 86;
+              endpoint--;
             }
-          });
-        }
-        break;
 
-      case "ArrowLeft":
-        for (let i = 3; i < 16; i += 4) {
-          let currentRow = filledTiles.filter(num => num <= i && num > i - 4);
-
-          currentRow.forEach((element) => {
-            for (let j = element; j !== i - 3; j--) {
-              if (items[j - 1].innerHTML == '') {
-                items[j - 1].innerHTML = items[j].innerHTML;
-                items[j].innerHTML = '';
-              } else if (items[j - 1].innerHTML == items[j].innerHTML) {
-                items[j - 1].innerHTML = items[j - 1].innerHTML * 2 + " ";
-                score.innerHTML = (+score.innerHTML) + (+items[j - 1].innerHTML);
-                items[j].innerHTML = '';
-                break;
-              }
+            if (movingTile.style.opacity !== "0") {
+              fieldsReversed[endpoint].appendChild(movingTile);
+              movingTile.offsetWidth;
             }
-          });
+            movingTile.style.left = `${coords}px`;
+          }
         }
-        break;
-
-      case "ArrowUp":
-        for (let i = 0; i < 4; i++) {
-          let currentColumn = filledTiles.filter(num => num % 4 == i);
-
-          currentColumn.forEach((element) => {
-            for (let j = element; j !== i; j -= 4) {
-              if (items[j - 4].innerHTML == '') {
-                items[j - 4].innerHTML = items[j].innerHTML;
-                items[j].innerHTML = '';
-              } else if (items[j - 4].innerHTML == items[j].innerHTML) {
-                items[j - 4].innerHTML = items[j - 4].innerHTML * 2 + " ";
-                score.innerHTML = (+score.innerHTML) + (+items[j - 4].innerHTML);
-                items[j].innerHTML = '';
-                break;
-              }
-            }
-          });
-        }
-        break;
+      break;
 
       case "ArrowDown":
-        for (let i = 0; i < 4; i++) {
-          let currentColumn = filledTiles.filter(num => num % 4 == i).reverse();
+        var fieldsReversed = fields.slice().reverse();
+        for (let i = 0; i < fieldsReversed.length; i++) {
+          let endpoint = i;
 
-          currentColumn.forEach((element) => {
-            for (let j = element; j < 12 + i; j += 4) {
-              if (items[j + 4].innerHTML == '') {
-                items[j + 4].innerHTML = items[j].innerHTML;
-                items[j].innerHTML = '';
-              } else if (items[j + 4].innerHTML == items[j].innerHTML) {
-                items[j + 4].innerHTML = items[j + 4].innerHTML * 2 + " ";
-                score.innerHTML = (+score.innerHTML) + (+items[j + 4].innerHTML);
-                items[j].innerHTML = '';
+          if (fieldsReversed[i].firstChild) {
+            let movingTile = fieldsReversed[i].firstChild;
+            let coords = parseInt(movingTile.style.top);
+
+            while (coords != 344) {
+              if (fieldsReversed[endpoint - 4].firstChild) {
+                if (movingTile.innerHTML === fieldsReversed[endpoint - 4].firstChild.innerHTML) {
+                  fieldsReversed[endpoint - 4].firstChild.innerHTML *= 2;
+                  score.innerHTML = (+score.innerHTML) + (+fieldsReversed[endpoint - 4].firstChild.innerHTML);
+                  movingTile.addEventListener('transitionend', () => {
+                    trashcan.innerHTML = '';
+                  });
+                  trashcan.appendChild(movingTile);
+                  movingTile.offsetWidth;
+                  movingTile.style.opacity = 0;
+                  coords += 86;
+                  endpoint -= 4; 
+                }
                 break;
               }
+              coords += 86;
+              endpoint -= 4;
             }
-          });
+            
+            if (movingTile.style.opacity !== "0") {
+              fieldsReversed[endpoint].appendChild(movingTile);
+              movingTile.offsetWidth;
+            }
+            movingTile.style.top = `${coords}px`;
+          }
         }
-        break;
+      break;
+
+      case "ArrowLeft":
+        for (let i = 0; i < fields.length; i++) {
+          let endpoint = i;
+
+          if (fields[i].firstChild) {
+            let movingTile = fields[i].firstChild;
+            let coords = parseInt(movingTile.style.left);
+
+            while (coords != 14) {
+              if (fields[endpoint - 1].firstChild) {
+                if (movingTile.innerHTML === fields[endpoint - 1].firstChild.innerHTML) {
+                  fields[endpoint - 1].firstChild.innerHTML *= 2;
+                  score.innerHTML = (+score.innerHTML) + (+fields[endpoint - 1].firstChild.innerHTML);
+                  movingTile.addEventListener('transitionend', () => {
+                    trashcan.innerHTML = '';
+                  });
+                  trashcan.appendChild(movingTile);
+                  movingTile.offsetWidth;
+                  movingTile.style.opacity = 0;
+                  coords -=86;
+                  endpoint--;
+                }
+                break;
+              }
+              coords -= 86;
+              endpoint--;
+            }
+            
+            if (movingTile.style.opacity !== "0") {
+              fields[endpoint].appendChild(movingTile);
+              movingTile.offsetWidth;
+            }
+            movingTile.style.left = `${coords}px`;
+          }
+        }
+      break;
+
+      case "ArrowUp":
+        for (let i = 0; i < fields.length; i++) {
+          let endpoint = i;
+
+          if (fields[i].firstChild) {
+            let movingTile = fields[i].firstChild;
+            let coords = parseInt(movingTile.style.top);
+
+            while (coords != 86) {
+              if (fields[endpoint - 4].firstChild) {
+                if (movingTile.innerHTML === fields[endpoint - 4].firstChild.innerHTML) {
+                  fields[endpoint - 4].firstChild.innerHTML *= 2;
+                  score.innerHTML = (+score.innerHTML) + (+fields[endpoint - 4].firstChild.innerHTML);
+                  movingTile.addEventListener('transitionend', () => {
+                    trashcan.innerHTML = '';
+                  });
+                  trashcan.appendChild(movingTile);
+                  movingTile.offsetWidth;
+                  movingTile.style.opacity = 0;
+                  coords -= 86;
+                  endpoint -= 4; 
+                }
+                break;
+              }
+              coords -= 86;
+              endpoint -= 4;
+            }
+            
+            if (movingTile.style.opacity !== "0") {
+              fields[endpoint].appendChild(movingTile);
+              movingTile.offsetWidth;
+            }
+            movingTile.style.top = `${coords}px`;
+          }
+        }
+      break;
     }
-
-    removeSpaces();
   }
 
-  function fillRandomTile() {
-    getBlankTiles();
-    let randomBlankTileNumber = getRandomInt(blankTiles.length);
-    let itemNumber = blankTiles[randomBlankTileNumber];
-    items[itemNumber].innerHTML = "2";
-    items[itemNumber].classList.add("popup-animation");
+
+  function fillRandomField() {
+    getBlankFields();
+    const randomBlankField = blankFields[getRandomInt(blankFields.length)];
+    if (blankFields.length) {
+      const newTile = document.createElement('div');
+      const trash = document.createElement('div');
+      newTile.innerHTML = getRandomInt(15) > 1 ? "2" : "4";
+      trash.classList.add('trash');
+      trash.innerHTML = newTile.innerHTML;
+      trash.style.left = `${absoluteCoordinates[randomBlankField.id][0]}px`;
+      trash.style.top = `${absoluteCoordinates[randomBlankField.id][1]}px`;
+      trashcan.appendChild(trash);
+      trash.addEventListener('transitionend', () => trashcan.innerHTML = '');
+      randomBlankField.offsetWidth;
+      trash.style.backgroundColor = '#4CAF50';
+      newTile.classList.add("tile", "poped-up");
+      newTile.style.left = `${absoluteCoordinates[randomBlankField.id][0]}px`;
+      newTile.style.top = `${absoluteCoordinates[randomBlankField.id][1]}px`;
+      randomBlankField.style.opacity = 0;
+      randomBlankField.appendChild(newTile);
+      randomBlankField.style.opacity = 1;
+    } else {
+      console.log('you lose..');
+    }
   }
+
 
   function startNewGame() {
     score.innerHTML = 0;
-    items.forEach(element => {
+    fields.forEach(element => {
       element.innerHTML = "";
     });
-    fillRandomTile();
+    fillRandomField();
   }
 
 
   // Utility stuff
 
-  function getBlankTiles() {
-    blankTiles = [];
-    items.forEach((element, key) => {
-      element.innerHTML === '' && blankTiles.push(key);
-    });
-  }
-
-  function getFilledTiles() {
-    filledTiles = [];
-    items.forEach((element, key) => {
-      element.innerHTML !== '' && filledTiles.push(key);
+  function getBlankFields() {
+    blankFields = [];
+    fields.forEach(field => {
+      field.innerHTML === '' && blankFields.push(field);
     });
   }
 
@@ -153,9 +239,4 @@
     return Math.floor(Math.random() * max);
   }
 
-  function removeSpaces() {
-    items.forEach(element => {
-      element.innerHTML = element.innerHTML.split(" ").join("");
-    });
-  }
 }());
