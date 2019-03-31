@@ -1,4 +1,4 @@
 # dead-simple-2048-with-javascript
 
-stable version:
+play:
 https://danieltereschenko.github.io/dead-simple-2048-with-javascript
