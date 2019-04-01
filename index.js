@@ -5,7 +5,6 @@
   const newGameButton       = document.querySelector("#new-game-btn");
   const addTile             = document.querySelector("#add-tile");
   const trashcan            = document.querySelector("#trashcan");
-  let filledFields          = [];
   const absoluteCoordinates = [[14, 86], [100, 86], [186, 86], [272, 86],
                                [14,172], [100,172], [186,172], [272,172],
                                [14,258], [100,258], [186,258], [272,258],
@@ -49,7 +48,7 @@
             while (coords != 272) {
               if (fieldsReversed[endpoint - 1].firstChild) {
                 if (movingTile.innerHTML === fieldsReversed[endpoint - 1].firstChild.innerHTML) {
-                  fieldsReversed[endpoint - 1].firstChild.innerHTML *= 2;
+                  fieldsReversed[endpoint - 1].firstChild.innerHTML = `${fieldsReversed[endpoint - 1].firstChild.innerHTML*2} `;
                   score.innerHTML = (+score.innerHTML) + (+fieldsReversed[endpoint - 1].firstChild.innerHTML);
                   movingTile.addEventListener('transitionend', () => {
                     trashcan.innerHTML = '';
@@ -87,7 +86,7 @@
             while (coords != 344) {
               if (fieldsReversed[endpoint - 4].firstChild) {
                 if (movingTile.innerHTML === fieldsReversed[endpoint - 4].firstChild.innerHTML) {
-                  fieldsReversed[endpoint - 4].firstChild.innerHTML *= 2;
+                  fieldsReversed[endpoint - 4].firstChild.innerHTML = `${fieldsReversed[endpoint - 4].firstChild.innerHTML*2} `;
                   score.innerHTML = (+score.innerHTML) + (+fieldsReversed[endpoint - 4].firstChild.innerHTML);
                   movingTile.addEventListener('transitionend', () => {
                     trashcan.innerHTML = '';
@@ -124,7 +123,7 @@
             while (coords != 14) {
               if (fields[endpoint - 1].firstChild) {
                 if (movingTile.innerHTML === fields[endpoint - 1].firstChild.innerHTML) {
-                  fields[endpoint - 1].firstChild.innerHTML *= 2;
+                  fields[endpoint - 1].firstChild.innerHTML = `${fields[endpoint - 1].firstChild.innerHTML*2} `;
                   score.innerHTML = (+score.innerHTML) + (+fields[endpoint - 1].firstChild.innerHTML);
                   movingTile.addEventListener('transitionend', () => {
                     trashcan.innerHTML = '';
@@ -161,7 +160,7 @@
             while (coords != 86) {
               if (fields[endpoint - 4].firstChild) {
                 if (movingTile.innerHTML === fields[endpoint - 4].firstChild.innerHTML) {
-                  fields[endpoint - 4].firstChild.innerHTML *= 2;
+                  fields[endpoint - 4].firstChild.innerHTML = `${fields[endpoint - 4].firstChild.innerHTML*2} `;
                   score.innerHTML = (+score.innerHTML) + (+fields[endpoint - 4].firstChild.innerHTML);
                   movingTile.addEventListener('transitionend', () => {
                     trashcan.innerHTML = '';
@@ -187,6 +186,7 @@
         }
       break;
     }
+    removeSpaces();
   }
 
 
@@ -238,5 +238,12 @@
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
-
+  
+  function removeSpaces() {
+    Array.from(document.querySelectorAll('.tile'))
+      .forEach(element => {
+        element.innerHTML = element.innerHTML.trim();
+      });
+  }
+  
 }());
