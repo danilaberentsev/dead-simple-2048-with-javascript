@@ -27,7 +27,7 @@ html {
 }
 .phantomTile {
   transition-property: background-color;
-  transition-duration: 600ms;
+  transition-duration: 300ms;
   position: absolute;
   color:white;
   width: 80px;
