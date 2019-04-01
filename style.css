@@ -22,7 +22,7 @@
   font-size: 32px;
   border-radius: 7px;
 }
-.trash {
+.phantomTile {
   transition-property: background-color;
   transition-duration: 350ms;
   position: absolute;

@@ -195,17 +195,17 @@
     const randomBlankField = blankFields[getRandomInt(blankFields.length)];
     if (blankFields.length) {
       const newTile = document.createElement('div');
-      const trash = document.createElement('div');
+      const phantomTile = document.createElement('div');
       newTile.innerHTML = getRandomInt(15) > 1 ? "2" : "4";
-      trash.classList.add('trash');
-      trash.innerHTML = newTile.innerHTML;
-      trash.style.left = `${absoluteCoordinates[randomBlankField.id][0]}px`;
-      trash.style.top = `${absoluteCoordinates[randomBlankField.id][1]}px`;
-      trashcan.appendChild(trash);
-      trash.addEventListener('transitionend', () => trashcan.innerHTML = '');
+      phantomTile.classList.add('phantomTile');
+      phantomTile.innerHTML = newTile.innerHTML;
+      phantomTile.style.left = `${absoluteCoordinates[randomBlankField.id][0]}px`;
+      phantomTile.style.top = `${absoluteCoordinates[randomBlankField.id][1]}px`;
+      trashcan.appendChild(phantomTile);
+      phantomTile.addEventListener('transitionend', () => trashcan.innerHTML = '');
       randomBlankField.offsetWidth;
-      trash.style.backgroundColor = '#4CAF50';
-      newTile.classList.add("tile", "poped-up");
+      phantomTile.style.backgroundColor = newTile.innerHTML === '2' ? '#4CAF50' : "#689F38";
+      newTile.classList.add("tile");
       newTile.style.left = `${absoluteCoordinates[randomBlankField.id][0]}px`;
       newTile.style.top = `${absoluteCoordinates[randomBlankField.id][1]}px`;
       randomBlankField.style.opacity = 0;
