@@ -1,3 +1,6 @@
+html {
+  background-color: #455a64;
+}
 .table {
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
@@ -24,7 +27,7 @@
 }
 .phantomTile {
   transition-property: background-color;
-  transition-duration: 350ms;
+  transition-duration: 600ms;
   position: absolute;
   color:white;
   width: 80px;
@@ -37,18 +40,20 @@
   border-radius: 7px;
 }
 .field {
-  transition-property: opacity;
-  transition-duration: 600ms;
   width: 80px;
   height: 80px;
   background-color: #263238;
 }
 h1 {
+  color: #263238;
   width: 350px;
   text-align: center;
 }
 #new-game-btn {
   margin-top: 5px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+  font-size: 16px;
   width: 355px;
   height: 50px;
   border: 6px solid #37474f;
@@ -58,3 +63,6 @@ h1 {
   background-color: #263238;
   color: white;
 }
+#score {
+  color: white;
+} 

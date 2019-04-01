@@ -3,15 +3,11 @@
   const html                = document.querySelector("html");
   const score               = document.querySelector("#score");
   const newGameButton       = document.querySelector("#new-game-btn");
-  const addTile             = document.querySelector("#add-tile");
   const trashcan            = document.querySelector("#trashcan");
   const absoluteCoordinates = [[14, 86], [100, 86], [186, 86], [272, 86],
                                [14,172], [100,172], [186,172], [272,172],
                                [14,258], [100,258], [186,258], [272,258],
                                [14,344], [100,344], [186,344], [272,344]];
-  addTile.addEventListener('click', () => {
-    fillRandomField();
-  });
   newGameButton.addEventListener("click", startNewGame);
   html.addEventListener("keyup", makeATurn);
   
